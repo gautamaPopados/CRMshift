@@ -1,8 +1,11 @@
 package com.gautama.crmshift.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -20,7 +23,16 @@ public class Transaction {
     private String paymentType;
     private LocalDateTime transactionDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
     @JoinColumn(name = "seller_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Seller seller;
+
+    public Transaction(String paymentType, BigDecimal amount, Seller seller) {
+        this.amount = amount;
+        this.paymentType = paymentType;
+        this.seller = seller;
+    }
+    public Transaction() {}
 }

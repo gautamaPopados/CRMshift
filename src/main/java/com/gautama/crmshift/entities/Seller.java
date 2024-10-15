@@ -23,4 +23,12 @@ public class Seller {
     @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
 
+    public Seller(String name, String contactInfo) {
+        this.name = name;
+        this.contactInfo = contactInfo;
+    }
+
+    public Seller() {
+
+    }
 }
