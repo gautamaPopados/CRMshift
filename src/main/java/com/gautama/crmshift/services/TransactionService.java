@@ -8,6 +8,7 @@ import com.gautama.crmshift.repositories.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -33,6 +34,7 @@ public class TransactionService {
                     transactionDTO.getAmount(),
                     seller
             );
+            newTransaction.setTransactionDate(LocalDateTime.now());
             return transactionRepository.save(newTransaction);
         }).orElseThrow(() -> new ResourceNotFoundException("Seller with id " + sellerId + " not found"));
     }

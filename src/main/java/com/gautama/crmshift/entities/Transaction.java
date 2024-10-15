@@ -1,6 +1,7 @@
 package com.gautama.crmshift.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.gautama.crmshift.enums.PaymentType;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,7 +21,7 @@ public class Transaction {
     private Long id;
 
     private BigDecimal amount;
-    private String paymentType;
+    private PaymentType paymentType;
     private LocalDateTime transactionDate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -29,7 +30,7 @@ public class Transaction {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Seller seller;
 
-    public Transaction(String paymentType, BigDecimal amount, Seller seller) {
+    public Transaction(PaymentType paymentType, BigDecimal amount, Seller seller) {
         this.amount = amount;
         this.paymentType = paymentType;
         this.seller = seller;

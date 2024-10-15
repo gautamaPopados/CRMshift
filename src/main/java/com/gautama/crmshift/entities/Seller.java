@@ -20,7 +20,7 @@ public class Seller {
     private String contactInfo;
     private LocalDateTime registrationDate;
 
-    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Transaction> transactions;
 
     public Seller(String name, String contactInfo) {

@@ -13,50 +13,50 @@ import java.util.List;
 
 @Tag(name = "Seller Controller")
 @RestController
-@RequestMapping("/api/sellers")
+@RequestMapping("/api")
 public class SellerController {
 
     @Autowired
     private SellerService sellerService;
 
     @Operation(summary = "Получить список всех продавцов")
-    @GetMapping
+    @GetMapping("/sellers")
     public List<Seller> getAllSellers() {
         return sellerService.findAllSellers();
     }
 
     @Operation(summary = "Получить продавца по ID")
-    @GetMapping("/{id}")
+    @GetMapping("/sellers/{id}")
     public Seller getSellerById(@PathVariable Long id) {
         return sellerService.findSellerById(id);
     }
 
     @Operation(summary = "Добавить продавца")
-    @PostMapping
+    @PostMapping("/sellers")
     public void createSeller(@RequestBody SellerDTO seller) {
         sellerService.createSeller(seller);
     }
 
     @Operation(summary = "Обновить информацию о продавце")
-    @PutMapping("/{id}")
-    public void updateSeller(@PathVariable Long id, @RequestBody Seller sellerDetails) {
+    @PutMapping("/sellers/{id}")
+    public void updateSeller(@PathVariable Long id, @RequestBody SellerDTO sellerDetails) {
         sellerService.updateSeller(id, sellerDetails);
     }
 
     @Operation(summary = "Удалить продавца")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/sellers/{id}")
     public void deleteSeller(@PathVariable Long id) {
         sellerService.deleteSeller(id);
     }
 
     @Operation(summary = "Получить самого продуктивного продавца")
-    @GetMapping("/most-productive")
+    @GetMapping("/sellers/most-productive")
     public Seller getMostProductiveSeller() {
         return sellerService.findMostProductiveSeller();
     }
 
     @Operation(summary = "Получить список продавцов с суммой транзакций меньше указанной")
-    @GetMapping("/transactions/sum-less-than/{amount}")
+    @GetMapping("/sellers/transactions/sum-less-than/{amount}")
     public List<Seller> getSellersWithTransactionSumLessThan(@PathVariable BigDecimal amount) {
         return sellerService.findSellersWithTransactionSumLessThan(amount);
     }

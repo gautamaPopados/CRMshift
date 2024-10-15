@@ -31,7 +31,7 @@ public class SellerService {
         sellerRepository.save(seller);
     }
 
-    public void updateSeller(Long id, Seller sellerDetails) {
+    public void updateSeller(Long id, SellerDTO sellerDetails) {
         sellerRepository.findById(id).ifPresentOrElse(seller -> {
             seller.setName(sellerDetails.getName());
             seller.setContactInfo(sellerDetails.getContactInfo());

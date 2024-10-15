@@ -13,6 +13,6 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
     List<Seller> findSellersWithTransactionSumLessThan(@Param("amount") BigDecimal amount);
 
     @Query("SELECT s FROM Seller s JOIN Transaction t ON s.id = t.seller.id " +
-            "GROUP BY s.id ORDER BY SUM(t.amount) DESC")
+            "GROUP BY s.id ORDER BY SUM(t.amount) DESC LIMIT 1")
     Seller findSellerWithMostTransactionAmount();
 }
