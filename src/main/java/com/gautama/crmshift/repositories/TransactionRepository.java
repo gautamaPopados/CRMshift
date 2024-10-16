@@ -9,6 +9,7 @@ import java.util.List;
 
 
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+
     @Query("SELECT t FROM Transaction t WHERE t.seller.id = :sellerId")
     List<Transaction> findTransactionsBySeller(@Param("sellerId") Long sellerId);
 }

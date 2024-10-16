@@ -28,6 +28,7 @@ public class TransactionService {
     }
 
     public void createTransaction(TransactionDTO transactionDTO, Long sellerId) {
+
         Transaction transaction = sellerRepository.findById(sellerId).map(seller -> {
             Transaction newTransaction = new Transaction(
                     transactionDTO.getPaymentType(),

@@ -2,13 +2,16 @@ package com.gautama.crmshift.controllers;
 
 import com.gautama.crmshift.dto.SellerDTO;
 import com.gautama.crmshift.entities.Seller;
+import com.gautama.crmshift.enums.PeriodType;
 import com.gautama.crmshift.services.SellerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 @Tag(name = "Seller Controller")
@@ -50,14 +53,17 @@ public class SellerController {
     }
 
     @Operation(summary = "Получить самого продуктивного продавца")
-    @GetMapping("/sellers/most-productive")
-    public Seller getMostProductiveSeller() {
-        return sellerService.findMostProductiveSeller();
+    @GetMapping("/sellers/most-productive-in/{period}")
+    public Seller getMostProductiveSeller(@PathVariable("period") PeriodType periodType,
+                                          @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        return sellerService.getMostProductiveSeller(periodType, date);
     }
 
-    @Operation(summary = "Получить список продавцов с суммой транзакций меньше указанной")
-    @GetMapping("/sellers/transactions/sum-less-than/{amount}")
-    public List<Seller> getSellersWithTransactionSumLessThan(@PathVariable BigDecimal amount) {
-        return sellerService.findSellersWithTransactionSumLessThan(amount);
+    @Operation(summary = "Вывести список продавцов, у которых сумма всех транзакции за выбранный период меньше переданного параметра суммы")
+    @GetMapping("/sellers/transactions/sum-less-than")
+    public List<Seller> getSellersWithTransactionSumLessThan(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
+                                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+                                                             @RequestParam BigDecimal amount) {
+        return sellerService.getSellersWithTotalLessThan(startDate, endDate, amount);
     }
 }
