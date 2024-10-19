@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Tag(name = "Seller Controller")
@@ -61,8 +62,8 @@ public class SellerController {
 
     @Operation(summary = "Вывести список продавцов, у которых сумма всех транзакции за выбранный период меньше переданного параметра суммы")
     @GetMapping("/sellers/transactions/sum-less-than")
-    public List<Seller> getSellersWithTransactionSumLessThan(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate startDate,
-                                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate endDate,
+    public List<Seller> getSellersWithTransactionSumLessThan(@RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime startDate,
+                                                             @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm") LocalDateTime endDate,
                                                              @RequestParam BigDecimal amount) {
         return sellerService.getSellersWithTotalLessThan(startDate, endDate, amount);
     }

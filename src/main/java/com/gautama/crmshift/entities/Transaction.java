@@ -17,22 +17,30 @@ import java.time.LocalDateTime;
 @Table(name = "transactions")
 public class Transaction {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
     private BigDecimal amount;
     private PaymentType paymentType;
     private LocalDateTime transactionDate;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne
     @JsonIgnore
-    @JoinColumn(name = "seller_id", nullable = false)
+    @JoinColumn(name = "seller_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Seller seller;
 
     public Transaction(PaymentType paymentType, BigDecimal amount, Seller seller) {
         this.amount = amount;
         this.paymentType = paymentType;
+        this.seller = seller;
+    }
+
+    public Transaction(Long id, BigDecimal amount, PaymentType paymentType, LocalDateTime transactionDate, Seller seller) {
+        this.id = id;
+        this.amount = amount;
+        this.paymentType = paymentType;
+        this.transactionDate = transactionDate;
         this.seller = seller;
     }
     public Transaction() {}

@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'jacoco'
     id 'org.springframework.boot' version '3.3.4'
     id 'io.spring.dependency-management' version '1.1.6'
     id 'org.hidetake.swagger.generator' version '2.19.2'
@@ -28,9 +29,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
     runtimeOnly 'org.postgresql:postgresql'
     annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
@@ -43,3 +44,31 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+test {
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
+}
+
+jacocoTestReport {
+    reports {
+        xml.required.set(true)
+        csv.required.set(true)
+        html.required.set(true)
+    }
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                // минимальное покрытие тестами в процентах
+                minimum = 0.50
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestReport

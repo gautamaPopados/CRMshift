@@ -28,6 +28,13 @@ public class Seller {
         this.contactInfo = contactInfo;
     }
 
+    public Seller(Long id, String name, String contactInfo, LocalDateTime registrationDate) {
+        this.name = name;
+        this.contactInfo = contactInfo;
+        this.id = id;
+        this.registrationDate = registrationDate;
+    }
+
     public Seller() {
 
     }

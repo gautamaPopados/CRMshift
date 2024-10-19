@@ -1,12 +1,13 @@
 package com.gautama.crmshift.dto;
 
-import com.gautama.crmshift.entities.Seller;
 import com.gautama.crmshift.enums.PaymentType;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+@Setter
 @Getter
 public class TransactionDTO implements Serializable {
 

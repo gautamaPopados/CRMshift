@@ -28,13 +28,14 @@ public class SellerService {
                 () -> new ResourceNotFoundException("Seller with id " + id + " not found"));
     }
 
-    public void createSeller(SellerDTO sellerDTO) {
+    public Seller createSeller(SellerDTO sellerDTO) {
         if (sellerDTO.getName() == null || sellerDTO.getName().isEmpty()) {
             throw new InvalidRequestException("Seller name cannot be null or empty");
         }
         Seller seller = new Seller(sellerDTO.getName(), sellerDTO.getContactInfo());
         seller.setRegistrationDate(LocalDateTime.now());
         sellerRepository.save(seller);
+        return seller;
     }
 
     public void updateSeller(Long id, SellerDTO sellerDetails) {
@@ -86,20 +87,20 @@ public class SellerService {
                 throw new InvalidRequestException("Invalid period type");
         }
         LocalDateTime startDateTime = startDate.atStartOfDay();
-        LocalDateTime endDateTime = endDate.atStartOfDay();
+        LocalDateTime endDateTime = endDate.plusDays(1).atStartOfDay();
+        System.out.println(startDateTime);
+        System.out.println(endDateTime);
         Seller seller = sellerRepository.findMostProductiveSeller(startDateTime, endDateTime);
 
         if (seller == null) {throw new ResourceNotFoundException("Seller not found");}
         return seller;
     }
 
-    public List<Seller> getSellersWithTotalLessThan(LocalDate startDate,
-                                                    LocalDate endDate,
+    public List<Seller> getSellersWithTotalLessThan(LocalDateTime startDate,
+                                                    LocalDateTime endDate,
                                                     BigDecimal amount) {
-        LocalDateTime startDateTime = startDate.atStartOfDay();
-        LocalDateTime endDateTime = endDate.atStartOfDay();
 
-        List<Seller> sellers = sellerRepository.findSellersBelowThreshold(startDateTime, endDateTime, amount);
+        List<Seller> sellers = sellerRepository.findSellersBelowThreshold(startDate, endDate, amount);
 
         if (sellers.isEmpty()) {throw new ResourceNotFoundException("Seller not found");}
         return sellers;

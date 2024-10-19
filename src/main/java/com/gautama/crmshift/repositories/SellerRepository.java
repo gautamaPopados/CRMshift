@@ -22,5 +22,4 @@ public interface SellerRepository extends JpaRepository<Seller, Long> {
             "WHERE t.transactionDate BETWEEN :startDate AND :endDate " +
             "GROUP BY t.seller ORDER BY totalAmount DESC LIMIT 1")
     Seller findMostProductiveSeller(@Param("startDate") LocalDateTime startDate, @Param("endDate") LocalDateTime endDate);
-
 }
